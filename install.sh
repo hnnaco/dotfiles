@@ -18,6 +18,14 @@ set -euo pipefail
 
 DOTFILES_PATH="$HOME/dotfiles"
 
+# Install vim and gh using Homebrew (if on macOS)
+if command -v brew &> /dev/null; then
+  echo "Installing vim and gh via Homebrew..."
+  brew install vim gh
+else
+  echo "Warning: Homebrew not found. Please install vim and gh manually."
+fi
+
 # Symlink dotfiles to the root within your workspace
 find $DOTFILES_PATH -type f -path "$DOTFILES_PATH/.*" |
 while read df; do
