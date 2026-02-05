@@ -18,12 +18,19 @@ set -euo pipefail
 
 DOTFILES_PATH="$HOME/dotfiles"
 
-# Install vim and gh using Homebrew (if on macOS)
-if command -v brew &> /dev/null; then
-  echo "Installing vim and gh via Homebrew..."
-  brew install vim gh
-else
-  echo "Warning: Homebrew not found. Please install vim and gh manually."
+# Install vim and gh on Ubuntu
+echo "Installing vim and gh..."
+sudo apt-get update
+sudo apt-get install -y vim
+
+# Install GitHub CLI (gh)
+if ! command -v gh &> /dev/null; then
+  type -p curl >/dev/null || sudo apt-get install -y curl
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+  sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  sudo apt-get update
+  sudo apt-get install -y gh
 fi
 
 # Symlink dotfiles to the root within your workspace
