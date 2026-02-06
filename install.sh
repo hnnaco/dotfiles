@@ -23,6 +23,9 @@ echo "Installing vim and gh..."
 sudo apt-get update
 sudo apt-get install -y vim
 
+# Configure git to use vim as the default editor
+git config --global core.editor vim
+
 # Install GitHub CLI (gh)
 if ! command -v gh &> /dev/null; then
   type -p curl >/dev/null || sudo apt-get install -y curl
