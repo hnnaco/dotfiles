@@ -26,6 +26,9 @@ sudo apt-get install -y vim
 # Configure git to use vim as the default editor
 git config --global core.editor vim
 
+# install DDCI MCP server
+claude mcp add --transport http "ddci-mcp-prod" 'https://ddci-mcp.mcp.us1.ddbuild.io/internal/mcp'
+
 # Install GitHub CLI (gh)
 if ! command -v gh &> /dev/null; then
   type -p curl >/dev/null || sudo apt-get install -y curl
