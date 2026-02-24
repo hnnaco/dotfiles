@@ -25,6 +25,7 @@ sudo apt-get install -y vim
 
 # Configure git to use vim as the default editor
 git config --global core.editor vim
+git config --global push.autoSetupRemote true
 
 # install DDCI MCP server
 claude mcp add --transport http "ddci-mcp-prod" 'https://ddci-mcp.mcp.us1.ddbuild.io/internal/mcp'
@@ -38,6 +39,8 @@ if ! command -v gh &> /dev/null; then
   sudo apt-get update
   sudo apt-get install -y gh
 fi
+
+gh auth login
 
 # Symlink dotfiles to the root within your workspace
 find $DOTFILES_PATH -type f -path "$DOTFILES_PATH/.*" |
