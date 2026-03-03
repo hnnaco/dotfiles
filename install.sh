@@ -42,6 +42,8 @@ fi
 
 gh auth login
 
+ddtool auth login --datacenter us1.ddbuild.io
+
 # Symlink dotfiles to the root within your workspace
 find $DOTFILES_PATH -type f -path "$DOTFILES_PATH/.*" |
 while read df; do
