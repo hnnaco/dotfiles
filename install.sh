@@ -19,12 +19,14 @@ set -euo pipefail
 DOTFILES_PATH="$HOME/dotfiles"
 
 # Install vim and gh on Ubuntu
-echo "Installing vim and gh..."
 sudo apt-get update
 sudo apt-get install -y vim
 
-# Configure git to use vim as the default editor
+# Configure git
 git config --global core.editor vim
+git config --global push.autoSetupRemote true
+git config --global user.name "hnnaco"
+git config --global user.email "hanna.co@datadoghq.com" 
 git config --global push.autoSetupRemote true
 
 # install DDCI MCP server
@@ -40,9 +42,17 @@ if ! command -v gh &> /dev/null; then
   sudo apt-get install -y gh
 fi
 
+cat >> ~/.zshrc <<EOL
+ddtool auth token registry --datacenter us1.ddbuild.io >> /dev/null
+if [[ \$- =~ i ]] && [[ -z "\$TMUX" ]] && [[ -n "\$SSH_TTY" ]]; then
+  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+fi
 gh auth login
+EOL
 
-ddtool auth login --datacenter us1.ddbuild.io
+cd ~/dd && git clone git@github.com:DataDog/local-ai-workflow.git && cd ~/dd/local-ai-workflow && ./install.sh
+cd ~
+
 
 # Symlink dotfiles to the root within your workspace
 find $DOTFILES_PATH -type f -path "$DOTFILES_PATH/.*" |
